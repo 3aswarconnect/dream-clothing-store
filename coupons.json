@@ -1,0 +1,5 @@
+{
+  "store": "Dream Clothing",
+  "note": "This file does not update by itself. Customer details are stored inside the coupon QR. Owner scans that QR to verify.",
+  "coupons": []
+}

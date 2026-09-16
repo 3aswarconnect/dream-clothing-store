@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Store QR for customers</title>
+  <link rel="icon" href="assets/brand/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="site-watermark" data-brand="watermark" aria-hidden="true"></div>
+  <main class="page">
+    <header class="brand">
+      <img data-brand="banner" class="brand-banner" alt="Dream Clothing">
+      <div class="brand-mark">OWNER</div>
+      <h2>Give this QR<br>to customers</h2>
+      <p>Print it or show it on your phone. Customer scans this, and our site opens.</p>
+    </header>
+
+    <section class="card">
+      <h2>How it works</h2>
+      <ol class="flow-list">
+        <li>After deploy, open this page and download the <strong>store QR</strong>.</li>
+        <li>Owner keeps that QR and shows it to the customer in the shop.</li>
+        <li>Customer scans it → customer page opens → review, spin, download coupon.</li>
+        <li>Next visit, customer shows the <strong>coupon QR</strong>. Owner scans that on the scanner page.</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <article class="store-poster" id="store-poster">
+        <div class="coupon-watermark" data-brand="watermark" aria-hidden="true"></div>
+        <img data-brand="banner" class="coupon-banner" alt="Dream Clothing">
+        <h3 class="coupon-title">Scan to get<br>your coupon</h3>
+        <p class="hint" id="poster-url"></p>
+        <div id="store-qr-box"></div>
+        <p class="coupon-id">Ask the owner if you need help</p>
+      </article>
+      <div class="btn-row">
+        <button class="btn" id="download-store-qr" type="button">Download store QR</button>
+        <a class="btn secondary" href="scan.html">Open coupon scanner</a>
+      </div>
+    </section>
+    <p class="site-footer" data-brand="footer"></p>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/brand.js"></script>
+  <script src="assets/common.js"></script>
+  <script src="assets/store-qr.js"></script>
+</body>
+</html>

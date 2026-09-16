@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 230" role="img" aria-label="Dream Clothing logo">
+  <g fill="none" stroke="#5ea0d6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M120 22 C120 8 142 8 144 26 C145 36 132 40 126 32" stroke-width="8"/>
+    <path d="M120 22 V58" stroke-width="8"/>
+    <path d="M30 150 L120 58 L210 150" stroke-width="13"/>
+    <path d="M30 150 H210" stroke-width="13"/>
+  </g>
+  <g fill="#5ea0d6">
+    <path d="M120 98 L84 82 L88 114 Z"/>
+    <path d="M120 98 L156 82 L152 114 Z"/>
+    <rect x="112" y="90" width="16" height="16" rx="4"/>
+    <path d="M42 176
+             C68 152 90 164 108 180
+             C114 170 120 166 120 166
+             C120 166 126 170 132 180
+             C150 164 172 152 198 176
+             C168 158 146 186 120 192
+             C94 186 72 158 42 176Z"/>
+  </g>
+</svg>

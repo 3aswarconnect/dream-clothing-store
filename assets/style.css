@@ -1,0 +1,883 @@
+:root {
+  --bg: #f4f0e6;
+  --paper: #fffdf8;
+  --ink: #161616;
+  --muted: #6b6560;
+  --wine: #1a1a1a;
+  --wine-dark: #000000;
+  --gold: #c9a24a;
+  --gold-soft: #e6d39a;
+  --accent: #6eafd4;
+  --ok: #2f7d4a;
+  --danger: #b42318;
+  --line: rgba(22, 22, 22, 0.12);
+  --shadow: 0 18px 50px rgba(22, 22, 22, 0.12);
+  --reel-h: 80px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: "Outfit", sans-serif;
+  color: var(--ink);
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(201, 162, 74, 0.22), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(110, 175, 212, 0.16), transparent 30%),
+    var(--bg);
+}
+
+a {
+  color: var(--wine);
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  width: min(760px, calc(100% - 24px));
+  margin: 16px auto 32px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.site-watermark {
+  position: fixed;
+  inset: -25%;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 42px;
+  overflow: hidden;
+  opacity: 0.055;
+  transform: rotate(-20deg);
+  color: var(--wine);
+  font-family: "Playfair Display", serif;
+  font-size: 28px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.site-header,
+.brand {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.brand-banner {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  margin: 0 0 14px;
+  object-fit: contain;
+  box-shadow: var(--shadow);
+}
+
+.brand-logo,
+.coupon-logo {
+  width: 132px;
+  height: auto;
+  max-height: 132px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.wordmark {
+  font-family: "Great Vibes", "Playfair Display", serif;
+  font-size: clamp(36px, 11vw, 64px);
+  font-weight: 400;
+  color: var(--gold);
+  margin: 0 0 6px;
+  line-height: 1.1;
+}
+
+.owners {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin: 4px 0 8px;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.contact-line {
+  margin: 4px 0;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 0 8px;
+  line-height: 1.45;
+}
+
+.brand-mark {
+  display: inline-block;
+  border: 1px solid var(--gold);
+  color: var(--wine);
+  letter-spacing: 0.28em;
+  font-size: 11px;
+  padding: 6px 12px;
+  margin-bottom: 10px;
+}
+
+.owner-line {
+  margin: 6px 0 0;
+  color: var(--wine);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+  margin-top: 22px;
+  padding: 0 4px;
+  overflow-wrap: anywhere;
+}
+
+.brand h1,
+.brand h2,
+.card h2 {
+  font-family: "Playfair Display", serif;
+  margin: 0;
+}
+
+.brand h2 {
+  font-size: clamp(20px, 5.6vw, 26px);
+  margin-top: 10px;
+  padding: 0 8px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.brand h1 {
+  font-size: clamp(32px, 6vw, 48px);
+}
+
+.brand p,
+.hint,
+.muted {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 22px;
+  margin-bottom: 16px;
+}
+
+.card h2 {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.step-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tick {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: transparent;
+  font-weight: 700;
+}
+
+.tick.done {
+  width: auto;
+  min-width: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--ok);
+  border-color: var(--ok);
+  color: white;
+}
+
+.tick.done::after {
+  content: " Done";
+  font-size: 13px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.field label {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font: inherit;
+  font-size: 16px;
+  background: #fff;
+  color: var(--ink);
+}
+
+input:focus {
+  outline: 2px solid rgba(196, 163, 90, 0.55);
+  border-color: var(--gold);
+}
+
+.btn,
+a.btn,
+label.btn {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 20px;
+  min-height: 48px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--wine);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: var(--wine-dark);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--wine);
+  border: 1px solid rgba(122, 31, 61, 0.22);
+}
+
+.btn.gold,
+.spin-cta {
+  background: linear-gradient(180deg, #f0d78a 0%, #c9a24a 48%, #8f7024 100%);
+  color: #2b210c;
+  box-shadow: 0 8px 22px rgba(201, 162, 74, 0.35);
+  letter-spacing: 0.04em;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.spin-card {
+  background:
+    radial-gradient(circle at top, rgba(201, 162, 74, 0.16), transparent 42%),
+    var(--paper);
+}
+
+.lock-box {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  gap: 22px;
+  padding: 28px 0 8px;
+}
+
+.lock {
+  width: 100%;
+  max-width: 360px;
+  padding: 22px 14px 20px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, #3a3a3a, #141414 55%, #0c0c0c);
+  box-shadow:
+    0 18px 40px rgba(22, 22, 22, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.lock.is-spinning {
+  box-shadow:
+    0 18px 40px rgba(201, 162, 74, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.lock-top {
+  width: 92px;
+  height: 28px;
+  margin: -36px auto 14px;
+  border: 7px solid #c9a24a;
+  border-bottom: 0;
+  border-radius: 46px 46px 0 0;
+  box-shadow: 0 -4px 0 #8f7024;
+}
+
+.lock-face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 16px;
+  background: #0a0a0a;
+  box-shadow: inset 0 0 0 2px #c9a24a;
+}
+
+.lock-rupee {
+  width: 36px;
+  color: #c9a24a;
+  font-family: "Playfair Display", serif;
+  font-size: 32px;
+  text-align: center;
+}
+
+.reel {
+  flex: 1 1 0;
+  width: auto;
+  max-width: 72px;
+  height: var(--reel-h, 80px);
+  overflow: hidden;
+  border-radius: 10px;
+  background: linear-gradient(#1c1c1c, #0e0e0e);
+  box-shadow: inset 0 10px 12px rgba(0, 0, 0, 0.45), inset 0 -10px 12px rgba(0, 0, 0, 0.45);
+}
+
+.reel-strip {
+  display: flex;
+  flex-direction: column;
+}
+
+.reel-strip b {
+  height: var(--reel-h, 80px);
+  display: grid;
+  place-items: center;
+  color: #f6e7b2;
+  font-family: "Playfair Display", serif;
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.reel-strip.is-spinning {
+  transition: transform 0.01s linear;
+}
+
+.reel-strip.is-stopping {
+  transition: transform 2.2s cubic-bezier(0.12, 0.78, 0.08, 1);
+}
+
+.reel-strip.reel-1.is-stopping {
+  transition-duration: 2.8s;
+}
+
+.reel-strip.reel-2.is-stopping {
+  transition-duration: 3.5s;
+}
+
+.prize {
+  text-align: center;
+  font-family: "Great Vibes", "Playfair Display", serif;
+  font-size: 56px;
+  color: var(--gold);
+  margin: 10px 0 0;
+  text-shadow: 0 8px 24px rgba(201, 162, 74, 0.28);
+}
+
+.prize.is-in {
+  animation: prize-pop 0.7s ease;
+}
+
+@keyframes prize-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  70% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.dates,
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.date-box,
+.detail-box {
+  background: #f8f1e8;
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+
+.date-box span,
+.detail-box span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.date-box strong,
+.detail-box strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 18px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 16px;
+  text-align: center;
+  margin-top: 18px;
+}
+
+.coupon-preview {
+  width: min(420px, 100%);
+  margin: 0 auto;
+}
+
+.coupon-banner {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+}
+
+.coupon-card .coupon-banner {
+  width: calc(100% + 40px);
+  max-width: none;
+  margin: -22px -20px 0;
+  border-bottom: 1px solid rgba(201, 162, 74, 0.35);
+}
+
+.store-poster .coupon-banner {
+  width: calc(100% + 32px);
+  max-width: none;
+  margin: -22px -16px 12px;
+}
+
+.coupon-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 22px 20px 18px;
+  color: #3d2a10;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.2), transparent 30%),
+    repeating-linear-gradient(
+      135deg,
+      #fffdf8,
+      #fffdf8 12px,
+      #f8f1e4 12px,
+      #f8f1e4 24px
+    );
+  border: 2px dashed var(--gold);
+}
+
+.coupon-card .wordmark {
+  font-size: 34px;
+}
+
+.coupon-logo {
+  width: 120px;
+  height: auto;
+  max-height: 120px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 8px;
+  position: relative;
+  z-index: 1;
+  border-radius: 12px;
+}
+
+.coupon-watermark {
+  position: absolute;
+  inset: -30%;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  opacity: 0.07;
+  transform: rotate(-18deg);
+  color: var(--wine);
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.coupon-card .coupon-kicker,
+.coupon-card .coupon-title,
+.coupon-card .coupon-grid,
+.coupon-card .coupon-id,
+.coupon-card .owner-line {
+  position: relative;
+  z-index: 1;
+}
+
+.coupon-card::before,
+.coupon-card::after {
+  content: "";
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background: var(--bg);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.coupon-card::before {
+  left: -14px;
+}
+
+.coupon-card::after {
+  right: -14px;
+}
+
+.coupon-kicker {
+  letter-spacing: 0.22em;
+  font-size: 11px;
+  text-align: center;
+  color: var(--wine);
+}
+
+.coupon-title {
+  font-family: "Playfair Display", serif;
+  text-align: center;
+  font-size: 30px;
+  margin: 0 0 14px;
+}
+
+.coupon-card .coupon-title {
+  margin: 20px 0 14px;
+  padding-top: 2px;
+  line-height: 1.2;
+}
+
+.coupon-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.coupon-meta p {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.coupon-meta strong {
+  display: block;
+  font-size: 16px;
+}
+
+#qr-box,
+#hidden-qr {
+  width: 124px;
+  height: 124px;
+  background: white;
+  padding: 6px;
+  border-radius: 10px;
+}
+
+#qr-box img,
+#qr-box canvas,
+#hidden-qr img,
+#hidden-qr canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.coupon-id {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.reader {
+  overflow: hidden;
+  border-radius: 18px;
+  background: #111;
+}
+
+#qr-reader {
+  width: 100%;
+}
+
+.status {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f8f1e8;
+}
+
+.status.ok {
+  background: #e8f6ec;
+  color: var(--ok);
+}
+
+.status.bad {
+  background: #fdecea;
+  color: var(--danger);
+}
+
+.footer-note {
+  text-align: center;
+  font-size: 13px;
+}
+
+.flow-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  padding-right: 4px;
+  color: var(--muted);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.flow-list li {
+  margin-bottom: 10px;
+}
+
+.store-poster {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  padding: 22px 16px;
+  border: 2px dashed var(--gold);
+  border-radius: 22px;
+  background: #fffdf8;
+  text-align: center;
+}
+
+.store-poster .coupon-kicker,
+.store-poster .coupon-title,
+.store-poster .owner-line,
+.store-poster .hint,
+.store-poster .coupon-logo,
+.store-poster .coupon-banner,
+.store-poster #store-qr-box,
+.store-poster .coupon-id {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+}
+
+.store-poster .hint,
+#poster-url {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-size: 12px;
+  padding: 0 4px;
+}
+
+.store-poster .coupon-title {
+  overflow-wrap: anywhere;
+  padding: 0 4px;
+}
+
+#store-qr-box {
+  width: min(200px, 58vw);
+  height: min(200px, 58vw);
+  max-width: 100%;
+  background: white;
+  padding: 6px;
+  border-radius: 12px;
+}
+
+#store-qr-box img,
+#store-qr-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 640px) {
+  .page {
+    width: 100%;
+    margin: 0 auto 28px;
+    padding: 0 10px 8px;
+  }
+
+  .brand {
+    margin: 0 -10px 16px;
+  }
+
+  .brand-banner {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 14px;
+    border-radius: 0;
+  }
+
+  .brand h2,
+  .brand p,
+  .brand .brand-mark {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .store-poster {
+    padding: 16px 10px;
+    border-radius: 16px;
+  }
+
+  .brand h2,
+  .card h2 {
+    font-size: 22px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 18px;
+    margin-bottom: 12px;
+  }
+
+  .step-row {
+    align-items: flex-start;
+  }
+
+  .tick {
+    margin-top: 2px;
+  }
+
+  .btn-row {
+    display: grid;
+  }
+
+  .btn-row .btn,
+  .btn-row a.btn,
+  .btn-row label.btn {
+    width: 100%;
+  }
+
+  .lock-rupee {
+    width: 28px;
+    font-size: 26px;
+  }
+
+  :root {
+    --reel-h: 68px;
+  }
+
+  .reel-strip b {
+    font-size: 36px;
+  }
+
+  .prize {
+    font-size: 44px;
+  }
+
+  .dates,
+  .details {
+    grid-template-columns: 1fr;
+  }
+
+  .coupon-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .coupon-card {
+    padding: 16px 14px 14px;
+  }
+
+  .coupon-card .coupon-banner {
+    width: calc(100% + 28px);
+    margin: -16px -14px 0;
+  }
+
+  .coupon-card .coupon-title {
+    margin: 18px 0 12px;
+  }
+
+  .store-poster .coupon-banner {
+    width: calc(100% + 20px);
+    margin: -16px -10px 12px;
+  }
+
+  .coupon-card .wordmark {
+    font-size: 28px;
+  }
+
+  .coupon-title {
+    font-size: 24px;
+  }
+
+  .site-watermark {
+    font-size: 20px;
+    gap: 28px;
+    opacity: 0.04;
+  }
+
+  .nav {
+    display: grid;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --reel-h: 60px;
+  }
+
+  .reel-strip b {
+    font-size: 32px;
+  }
+
+  .lock-top {
+    width: 72px;
+    height: 22px;
+    margin: -30px auto 12px;
+  }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Owner Scanner | Dress Store</title>
+  <link rel="icon" href="assets/brand/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="site-watermark" data-brand="watermark" aria-hidden="true"></div>
+  <main class="page">
+    <header class="brand">
+      <img data-brand="banner" class="brand-banner" alt="Dream Clothing">
+      <div class="brand-mark">OWNER</div>
+      <h2>Scan coupon QR</h2>
+      <p>Scan the customer's downloaded <strong>coupon card</strong>. Name, phone, discount and dates come from that QR.</p>
+    </header>
+
+    <section class="card">
+      <h2>Two QR codes</h2>
+      <ol class="flow-list">
+        <li><strong>Store QR</strong> — you give this to the customer. It opens our site.</li>
+        <li><strong>Coupon QR</strong> — customer downloads this later. You scan that here. Name, phone, discount and dates are inside that QR.</li>
+      </ol>
+      <p class="hint">To test on this same phone: download the coupon image, then tap <strong>Scan coupon image</strong> and pick that file.</p>
+      <div class="btn-row">
+        <a class="btn" href="store-qr.html">Get store QR for customers</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Camera scanner</h2>
+      <div class="reader">
+        <div id="qr-reader"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="start-scan" type="button">Start scanner</button>
+        <button class="btn secondary" id="stop-scan" type="button">Stop</button>
+        <label class="btn secondary" for="qr-file">Scan coupon image</label>
+        <input id="qr-file" class="hidden" type="file" accept="image/*">
+      </div>
+    </section>
+
+    <section class="card hidden" id="result-card">
+      <h2>Coupon details</h2>
+      <p class="status" id="coupon-status"></p>
+      <div class="details">
+        <div class="detail-box"><span>Name</span><strong id="out-name"></strong></div>
+        <div class="detail-box"><span>Phone</span><strong id="out-phone"></strong></div>
+        <div class="detail-box"><span>Discount money</span><strong id="out-discount"></strong></div>
+        <div class="detail-box"><span>Start / purchased date</span><strong id="out-start"></strong></div>
+        <div class="detail-box"><span>Expiry date</span><strong id="out-expiry"></strong></div>
+        <div class="detail-box"><span>Coupon ID</span><strong id="out-id"></strong></div>
+      </div>
+    </section>
+
+    <p class="nav"><a href="index.html">Back to customer coupon page</a></p>
+    <p class="site-footer" data-brand="footer"></p>
+  </main>
+
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/brand.js"></script>
+  <script src="assets/common.js"></script>
+  <script src="assets/scan.js"></script>
+</body>
+</html>
