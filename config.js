@@ -14,8 +14,8 @@ window.STORE_CONFIG = {
   logoUrl: "assets/brand/logo.png",
   bannerUrl: "assets/brand/banner.png",
   watermarkUrl: "assets/brand/watermark.svg",
-  minPrize: 300,
-  maxPrize: 500,
+  minPrize: 100,
+  maxPrize: 357,
   minPurchase: 1500,
   expiryMonths: 1
 };

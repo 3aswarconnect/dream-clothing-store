@@ -47,7 +47,7 @@ There are **two QR codes**:
 Customer steps after scanning the store QR:
 
 1. Tap **Review**, finish the Maps review, then come back. The review step gets a tick.
-2. Enter name and phone, then spin. Prize is a random amount from 300 to 500.
+2. Enter name and phone, then spin. Prize is a random amount from 100 to 357.
 3. Dates are filled automatically:
    - present date = today
    - purchased date = today

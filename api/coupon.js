@@ -211,7 +211,7 @@ module.exports = async function handler(req, res) {
         id: makeId(),
         name: name,
         phone: phone,
-        discount: randomPrize(300, 500),
+        discount: randomPrize(100, 357),
         issued: today,
         purchased: today,
         expiry: addMonths(today, 1),
