@@ -647,6 +647,20 @@ label.btn {
 
 #qr-reader {
   width: 100%;
+  min-height: 240px;
+}
+
+#qr-reader video {
+  width: 100% !important;
+  height: auto !important;
+}
+
+#qr-file-reader {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  left: -9999px;
 }
 
 .status {
