@@ -16,5 +16,6 @@ window.STORE_CONFIG = {
   watermarkUrl: "assets/brand/watermark.svg",
   minPrize: 300,
   maxPrize: 500,
+  minPurchase: 1500,
   expiryMonths: 1
 };

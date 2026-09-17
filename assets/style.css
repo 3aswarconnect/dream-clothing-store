@@ -237,7 +237,8 @@ a {
   color: var(--muted);
 }
 
-input {
+input,
+select {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -248,9 +249,46 @@ input {
   color: var(--ink);
 }
 
-input:focus {
+input:focus,
+select:focus {
   outline: 2px solid rgba(196, 163, 90, 0.55);
   border-color: var(--gold);
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.coupon-table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.coupon-table th,
+.coupon-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.coupon-table th {
+  background: #f8f1e8;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.coupon-table tr:last-child td {
+  border-bottom: 0;
 }
 
 .btn,
@@ -632,6 +670,20 @@ label.btn {
   height: 100% !important;
 }
 
+.coupon-rule {
+  position: relative;
+  z-index: 1;
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #3d2a10;
+  background: rgba(201, 162, 74, 0.16);
+  border-radius: 12px;
+}
+
 .coupon-id {
   text-align: center;
   margin-top: 12px;
@@ -668,6 +720,14 @@ label.btn {
   padding: 12px 14px;
   border-radius: 14px;
   background: #f8f1e8;
+}
+
+.reader.is-hit {
+  box-shadow: 0 0 0 4px #2f7d4a;
+}
+
+#result-card.is-instant {
+  outline: 3px solid #2f7d4a;
 }
 
 .status.ok {

@@ -57,6 +57,12 @@
     },
     redeem: function (id, phone) {
       return request("POST", "redeem", { id: id, phone: phone });
+    },
+    list: function (page, filter) {
+      return request("GET", "list", {
+        page: String(page || 1),
+        filter: filter || "all"
+      });
     }
   };
 })(window);

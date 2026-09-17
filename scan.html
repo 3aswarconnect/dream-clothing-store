@@ -57,11 +57,56 @@
         <div class="detail-box"><span>Expiry date</span><strong id="out-expiry"></strong></div>
         <div class="detail-box"><span>Coupon ID</span><strong id="out-id"></strong></div>
         <div class="detail-box"><span>Used</span><strong id="out-used"></strong></div>
+        <div class="detail-box"><span>Minimum purchase</span><strong id="out-min"></strong></div>
       </div>
       <div class="btn-row" id="redeem-row">
         <button class="btn gold hidden" id="mark-used-btn" type="button">Accept and mark as used</button>
       </div>
       <p class="hint">Scan the coupon, check the name and phone, then tap <strong>Accept and mark as used</strong>. After that, this customer can get a new coupon for the next purchase.</p>
+    </section>
+
+    <section class="card">
+      <h2>Coupons list</h2>
+      <p class="hint">All coupons saved in the database. Filter by expired or not, 15 per page.</p>
+      <div class="btn-row">
+        <button class="btn" id="load-list-btn" type="button">Show coupons</button>
+      </div>
+      <div id="list-panel" class="hidden">
+        <div class="field">
+          <label for="list-filter">Filter</label>
+          <select id="list-filter">
+            <option value="all">All</option>
+            <option value="active">Not expired</option>
+            <option value="expired">Expired</option>
+            <option value="unused">Not used</option>
+            <option value="used">Used</option>
+          </select>
+        </div>
+        <p class="status" id="list-status"></p>
+        <div class="table-wrap">
+          <table class="coupon-table" id="coupon-table">
+            <thead>
+              <tr>
+                <th>Coupon ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Discount</th>
+                <th>Issued</th>
+                <th>Purchased</th>
+                <th>Expiry</th>
+                <th>Used</th>
+                <th>Used date</th>
+              </tr>
+            </thead>
+            <tbody id="coupon-table-body"></tbody>
+          </table>
+        </div>
+        <p class="hint" id="list-meta"></p>
+        <div class="btn-row">
+          <button class="btn secondary" id="list-prev" type="button">Previous</button>
+          <button class="btn secondary" id="list-next" type="button">Next</button>
+        </div>
+      </div>
     </section>
 
     <p class="nav"><a href="index.html">Back to customer coupon page</a></p>

@@ -100,6 +100,39 @@ module.exports = async function handler(req, res) {
     const col = db.collection("coupons");
     const action = String((req.query && req.query.action) || (req.body && req.body.action) || "").toLowerCase();
 
+    if (action === "list") {
+      const page = Math.max(1, parseInt((req.query && req.query.page) || (req.body && req.body.page) || "1", 10) || 1);
+      const limit = 15;
+      const filter = String((req.query && req.query.filter) || (req.body && req.body.filter) || "all");
+      const today = todayISO();
+      const query = {};
+      if (filter === "expired") {
+        query.expiry = { $lt: today };
+      } else if (filter === "active") {
+        query.expiry = { $gte: today };
+      } else if (filter === "used") {
+        query.used = "yes";
+      } else if (filter === "unused") {
+        query.used = "no";
+      }
+      const total = await col.countDocuments(query);
+      const docs = await col
+        .find(query)
+        .sort({ purchased: -1, createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .toArray();
+      send(res, 200, {
+        ok: true,
+        coupons: docs.map(publicCoupon),
+        page: page,
+        limit: limit,
+        total: total,
+        pages: Math.max(1, Math.ceil(total / limit) || 1)
+      });
+      return;
+    }
+
     if (req.method === "GET" || action === "check") {
       const phone = normalizePhone((req.query && req.query.phone) || (req.body && req.body.phone));
       if (!/^\d{10}$/.test(phone)) {

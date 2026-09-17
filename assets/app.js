@@ -112,6 +112,7 @@
     document.getElementById("card-purchased").textContent = store.formatDisplayDate(coupon.purchased);
     document.getElementById("card-expiry").textContent = store.formatDisplayDate(coupon.expiry);
     document.getElementById("card-id").textContent = "COUPON ID " + coupon.id;
+    document.getElementById("card-rule").textContent = "This coupon is applied on purchases above " + cfg.currency + (cfg.minPurchase || 1500) + " only.";
     prizeText.textContent = cfg.currency + coupon.discount;
     prizeText.classList.remove("hidden");
     resultCard.classList.remove("hidden");
@@ -235,7 +236,7 @@
     var width = 840;
     var bannerH = bannerImg ? Math.round(780 * (bannerImg.height / bannerImg.width)) : 120;
     var titleTop = 30 + bannerH + 28;
-    var height = 580 + bannerH;
+    var height = 640 + bannerH;
     canvas.width = width;
     canvas.height = height;
     var ctx = canvas.getContext("2d");
@@ -293,7 +294,14 @@
       ctx.drawImage(qrNode, 598, titleTop + 80, 154, 154);
     }
 
+    ctx.fillStyle = "rgba(201, 162, 74, 0.2)";
+    roundRect(ctx, 90, height - 128, 660, 40, 10);
+    ctx.fill();
+    ctx.fillStyle = "#3d2a10";
     ctx.textAlign = "center";
+    ctx.font = "600 18px Outfit, sans-serif";
+    ctx.fillText("This coupon is applied on purchases above " + cfg.currency + (cfg.minPurchase || 1500) + " only.", width / 2, height - 101);
+
     ctx.font = "500 15px Outfit, sans-serif";
     ctx.fillStyle = "#7a6458";
     ctx.fillText("Coupon ID " + currentCoupon.id + "  ·  " + window.Brand.footerText(), width / 2, height - 50);
