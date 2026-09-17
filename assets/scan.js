@@ -6,31 +6,46 @@
 
   var statusEl = document.getElementById("coupon-status");
   var resultCard = document.getElementById("result-card");
+  var markUsedBtn = document.getElementById("mark-used-btn");
+  var scannedCoupon = null;
 
   document.title = "Owner Scanner | " + cfg.storeName;
 
-  function showCoupon(coupon, source) {
-    if (!coupon || !coupon.id) {
-      resultCard.classList.remove("hidden");
-      statusEl.className = "status bad";
-      statusEl.textContent = "Could not read coupon details. Scan the QR on the customer's downloaded card.";
-      return;
-    }
+  var api = window.CouponApi;
 
+  function fillDetails(coupon) {
     document.getElementById("out-name").textContent = coupon.name || "-";
     document.getElementById("out-phone").textContent = coupon.phone || "-";
     document.getElementById("out-discount").textContent = coupon.discount ? cfg.currency + coupon.discount : "-";
     document.getElementById("out-start").textContent = coupon.purchased ? store.formatDisplayDate(coupon.purchased) : "-";
     document.getElementById("out-expiry").textContent = coupon.expiry ? store.formatDisplayDate(coupon.expiry) : "-";
-    document.getElementById("out-id").textContent = coupon.id;
+    document.getElementById("out-id").textContent = coupon.id || "-";
+    document.getElementById("out-used").textContent = coupon.used === "yes" ? "Yes" : "No";
+  }
 
+  function showFromDb(coupon, extra) {
+    scannedCoupon = coupon || null;
+    markUsedBtn.classList.add("hidden");
     resultCard.classList.remove("hidden");
-    statusEl.className = "status " + (store.isExpired(coupon) ? "bad" : "ok");
-    if (store.isExpired(coupon)) {
-      statusEl.textContent = "Expired coupon. Do not accept this discount. Source: " + source + ".";
-    } else {
-      statusEl.textContent = "Valid coupon. Source: " + source + ".";
+    if (!coupon) {
+      statusEl.className = "status bad";
+      statusEl.textContent = extra || "Could not find this coupon in the database.";
+      return;
     }
+    fillDetails(coupon);
+    if (coupon.used === "yes") {
+      statusEl.className = extra ? "status ok" : "status bad";
+      statusEl.textContent = extra || "Already used. Do not give this discount again. Customer can get a new coupon now.";
+      return;
+    }
+    if (store.isExpired(coupon)) {
+      statusEl.className = "status bad";
+      statusEl.textContent = "Expired coupon. Do not accept this discount.";
+      return;
+    }
+    statusEl.className = "status ok";
+    statusEl.textContent = extra || "Valid coupon. Check the name and phone, then mark as used.";
+    markUsedBtn.classList.remove("hidden");
   }
 
   function lookup(payload) {
@@ -48,8 +63,18 @@
       return;
     }
 
-    if (decoded.name && decoded.phone && decoded.discount) {
-      showCoupon(decoded, "coupon QR");
+    if (decoded.id && decoded.phone) {
+      statusEl.className = "status";
+      resultCard.classList.remove("hidden");
+      statusEl.textContent = "Checking database...";
+      markUsedBtn.classList.add("hidden");
+      api.lookup(decoded.id, decoded.phone).then(function (res) {
+        if (!res.ok || !res.coupon) {
+          showFromDb(null, "This coupon was not found in the database.");
+          return;
+        }
+        showFromDb(res.coupon);
+      });
       return;
     }
 
@@ -95,6 +120,30 @@
       scanner = null;
     });
   }
+
+  markUsedBtn.addEventListener("click", function () {
+    if (!scannedCoupon) {
+      return;
+    }
+    markUsedBtn.disabled = true;
+    api.redeem(scannedCoupon.id, scannedCoupon.phone).then(function (res) {
+      markUsedBtn.disabled = false;
+      if (res.reason === "used" || (res.coupon && res.coupon.used === "yes" && !res.ok)) {
+        showFromDb(res.coupon || scannedCoupon);
+        return;
+      }
+      if (res.reason === "expired") {
+        showFromDb(res.coupon || scannedCoupon, "Expired coupon. Do not accept this discount.");
+        return;
+      }
+      if (!res.ok || !res.coupon) {
+        statusEl.className = "status bad";
+        statusEl.textContent = "Could not update the database. Check internet and try again.";
+        return;
+      }
+      showFromDb(res.coupon, "Marked as used. This customer can get a new coupon for the next purchase.");
+    });
+  });
 
   document.getElementById("start-scan").addEventListener("click", startScanner);
   document.getElementById("stop-scan").addEventListener("click", stopScanner);

@@ -21,6 +21,7 @@
     document.getElementById("reel-2")
   ];
   var pendingPrize = null;
+  var api = window.CouponApi;
   var REPEATS = 16;
 
   function fillStrips() {
@@ -127,27 +128,40 @@
     });
   }
 
-  function finishSpin() {
-    var today = store.todayISO();
-    currentCoupon = {
-      id: store.makeId(),
-      name: nameInput.value.trim(),
-      phone: phoneInput.value.trim(),
-      discount: pendingPrize,
-      issued: today,
-      purchased: today,
-      expiry: store.addMonths(today, cfg.expiryMonths)
-    };
-    store.upsertCoupon(currentCoupon);
-    renderCoupon(currentCoupon);
+  function showReadyCoupon(coupon, locked) {
+    currentCoupon = coupon;
+    nameInput.value = coupon.name || nameInput.value;
+    phoneInput.value = coupon.phone || phoneInput.value;
+    nameInput.disabled = !!locked;
+    phoneInput.disabled = !!locked;
+    spinBtn.disabled = !!locked;
+    spinBtn.textContent = locked ? "Use this coupon first" : "Gift unlocked";
+    renderCoupon(coupon);
     prizeText.classList.add("is-in");
-    lock.classList.remove("is-spinning");
-    spinning = false;
-    spinBtn.disabled = true;
-    spinBtn.textContent = "Gift unlocked";
-    nameInput.disabled = true;
-    phoneInput.disabled = true;
   }
+
+  function resetSpinUi() {
+    spinning = false;
+    lock.classList.remove("is-spinning");
+    if (!currentCoupon) {
+      spinBtn.disabled = false;
+      spinBtn.textContent = "Spin the lock";
+    }
+  }
+
+  function checkPhoneInDb() {
+    var phone = phoneInput.value.trim();
+    if (!/^\d{10}$/.test(phone)) {
+      return;
+    }
+    api.check(phone).then(function (res) {
+      if (res.coupon && res.canSpin === false) {
+        showReadyCoupon(res.coupon, true);
+      }
+    });
+  }
+
+  phoneInput.addEventListener("blur", checkPhoneInDb);
 
   spinBtn.addEventListener("click", function () {
     var error = getFormError();
@@ -155,21 +169,47 @@
       alert(error);
       return;
     }
-    if (spinning || currentCoupon) {
+    if (spinning) {
       return;
     }
     spinning = true;
     spinBtn.disabled = true;
-    spinBtn.textContent = "Spinning...";
-    lock.classList.add("is-spinning");
-    pendingPrize = store.randomPrize(cfg.minPrize, cfg.maxPrize);
-    var digits = String(pendingPrize).split("").map(Number);
-    digits.forEach(function (digit, index) {
-      setReel(index, 0, 0, false);
-      strips[index].offsetHeight;
-      setReel(index, digit, 8 + index * 3, true);
+    spinBtn.textContent = "Checking...";
+    api.claim(nameInput.value.trim(), phoneInput.value.trim()).then(function (res) {
+      if (res.reason === "active" && res.coupon) {
+        resetSpinUi();
+        showReadyCoupon(res.coupon, true);
+        alert("You already have a coupon. Please use it at the shop. You can get another after it is used or expires.");
+        return;
+      }
+      if (!res.ok || !res.coupon) {
+        resetSpinUi();
+        if (res.reason === "local") {
+          alert(res.message);
+        } else if (res.reason === "server" && res.message) {
+          alert("Database error: " + res.message);
+        } else {
+          alert("Could not save the coupon. Use the live Vercel site and check MONGODB_URI.");
+        }
+        return;
+      }
+      currentCoupon = res.coupon;
+      pendingPrize = res.coupon.discount;
+      spinBtn.textContent = "Spinning...";
+      lock.classList.add("is-spinning");
+      var digits = String(pendingPrize).split("").map(Number);
+      digits.forEach(function (digit, index) {
+        setReel(index, 0, 0, false);
+        strips[index].offsetHeight;
+        setReel(index, digit, 8 + index * 3, true);
+      });
+      setTimeout(function () {
+        showReadyCoupon(currentCoupon, true);
+        spinBtn.textContent = "Gift unlocked";
+        lock.classList.remove("is-spinning");
+        spinning = false;
+      }, 3600);
     });
-    setTimeout(finishSpin, 3600);
   });
 
   function waitForQrImage() {
@@ -283,24 +323,4 @@
     });
   });
 
-  document.getElementById("reset-btn").addEventListener("click", function () {
-    currentCoupon = null;
-    spinning = false;
-    nameInput.disabled = false;
-    phoneInput.disabled = false;
-    nameInput.value = "";
-    phoneInput.value = "";
-    spinBtn.disabled = false;
-    spinBtn.textContent = "Spin the lock";
-    prizeText.classList.add("hidden");
-    prizeText.classList.remove("is-in");
-    resultCard.classList.add("hidden");
-    pendingPrize = null;
-    lock.classList.remove("is-spinning");
-    strips.forEach(function (strip, index) {
-      setReel(index, 0, 0, false);
-    });
-    document.getElementById("qr-box").innerHTML = "";
-    qrWidget = null;
-  });
 })();

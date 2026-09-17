@@ -1,0 +1,7 @@
+{
+  "name": "dream-clothing-coupon",
+  "private": true,
+  "dependencies": {
+    "mongodb": "^6.19.0"
+  }
+}

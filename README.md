@@ -10,6 +10,24 @@ Simple HTML site. No React, no database. Works on **Vercel** or **GitHub Pages**
 - `coupons.json` — coupon list you can keep / replace later
 - `config.js` — store name and Google Maps review link
 
+## MongoDB (required for live coupons)
+
+The site saves each coupon in **MongoDB Atlas** (free). Local phone storage is not used for this.
+
+1. Create a free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas)
+2. Create a database user and allow access from `0.0.0.0/0` (Vercel)
+3. Copy the connection string
+4. In Vercel → Project → Settings → Environment Variables add:
+   - `MONGODB_URI` = that connection string
+   - `MONGODB_DB` = `dream_clothing`
+5. Redeploy
+
+Each coupon stores: name, phone, discount, purchase date, expiry date, and used yes/no.
+
+- Spin is blocked while that phone has an unused, not-expired coupon
+- Owner scan sets **used = yes**
+- After used or date expiry, the same phone can spin again
+
 ## Before you deploy
 
 1. Open `config.js`

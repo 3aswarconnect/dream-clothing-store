@@ -1,5 +1,7 @@
 (function (global) {
   var STORAGE_KEY = "dress-store-coupons";
+  var CLAIM_KEY = "dress-claimed-coupon";
+  var REDEEM_KEY = "dress-redeemed";
   var QR_PREFIX = "DRESSCOUPON:";
 
   function pad(n) {
@@ -127,6 +129,70 @@
     return parseISODate(coupon.expiry) < parseISODate(todayISO());
   }
 
+  function normalizePhone(phone) {
+    return String(phone || "").replace(/\D/g, "").slice(-10);
+  }
+
+  function readJson(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (err) {
+      return fallback;
+    }
+  }
+
+  function getClaimedCoupon() {
+    return readJson(CLAIM_KEY, null);
+  }
+
+  function saveClaimedCoupon(coupon) {
+    localStorage.setItem(CLAIM_KEY, JSON.stringify(coupon));
+    upsertCoupon(coupon);
+  }
+
+  function getRedeems() {
+    var data = readJson(REDEEM_KEY, { ids: {}, phones: {} });
+    data.ids = data.ids || {};
+    data.phones = data.phones || {};
+    return data;
+  }
+
+  function redeemStatus(coupon) {
+    if (!coupon) {
+      return { blocked: false };
+    }
+    var data = getRedeems();
+    var phone = normalizePhone(coupon.phone);
+    if (coupon.id && data.ids[coupon.id]) {
+      return { blocked: true, reason: "used", record: data.ids[coupon.id] };
+    }
+    if (phone && data.phones[phone]) {
+      return { blocked: true, reason: "phone", record: data.phones[phone] };
+    }
+    return { blocked: false };
+  }
+
+  function markRedeemed(coupon) {
+    var data = getRedeems();
+    var record = {
+      id: coupon.id,
+      name: coupon.name,
+      phone: coupon.phone,
+      discount: coupon.discount,
+      usedAt: todayISO()
+    };
+    if (coupon.id) {
+      data.ids[coupon.id] = record;
+    }
+    var phone = normalizePhone(coupon.phone);
+    if (phone) {
+      data.phones[phone] = record;
+    }
+    localStorage.setItem(REDEEM_KEY, JSON.stringify(data));
+    return record;
+  }
+
   function mergeCouponLists(base, extra) {
     var map = {};
     var i;
@@ -190,6 +256,11 @@
     encodePayload: encodePayload,
     decodePayload: decodePayload,
     isExpired: isExpired,
+    normalizePhone: normalizePhone,
+    getClaimedCoupon: getClaimedCoupon,
+    saveClaimedCoupon: saveClaimedCoupon,
+    redeemStatus: redeemStatus,
+    markRedeemed: markRedeemed,
     mergeCouponLists: mergeCouponLists,
     downloadJson: downloadJson,
     fetchFileCoupons: fetchFileCoupons,

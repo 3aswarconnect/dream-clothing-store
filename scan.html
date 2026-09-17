@@ -55,7 +55,12 @@
         <div class="detail-box"><span>Start / purchased date</span><strong id="out-start"></strong></div>
         <div class="detail-box"><span>Expiry date</span><strong id="out-expiry"></strong></div>
         <div class="detail-box"><span>Coupon ID</span><strong id="out-id"></strong></div>
+        <div class="detail-box"><span>Used</span><strong id="out-used"></strong></div>
       </div>
+      <div class="btn-row" id="redeem-row">
+        <button class="btn gold hidden" id="mark-used-btn" type="button">Accept and mark as used</button>
+      </div>
+      <p class="hint">Scan the coupon, check the name and phone, then tap <strong>Accept and mark as used</strong>. After that, this customer can get a new coupon for the next purchase.</p>
     </section>
 
     <p class="nav"><a href="index.html">Back to customer coupon page</a></p>
@@ -66,6 +71,7 @@
   <script src="config.js"></script>
   <script src="assets/brand.js"></script>
   <script src="assets/common.js"></script>
+  <script src="assets/db-api.js"></script>
   <script src="assets/scan.js"></script>
 </body>
 </html>
